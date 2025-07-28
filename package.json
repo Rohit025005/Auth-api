@@ -1,0 +1,36 @@
+{
+  "name": "auth-api",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Rohit025005/Auth-api#readme",
+  "bugs": {
+    "url": "https://github.com/Rohit025005/Auth-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rohit025005/Auth-api.git"
+  },
+  "license": "MIT",
+  "author": "R",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "crypto": "^1.0.1",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mailtrap": "^4.2.0",
+    "mongoose": "^8.16.4",
+    "nodemailer": "^6.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
