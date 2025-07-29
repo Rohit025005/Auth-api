@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
-import { MONGI_URI } from '../config/env.js';
+import { MONGO_URI,MAILTRAP_TOKEN } from '../config/env.js';
 
-export const DBConnection = async ()=>{
+ const DBConnection = async ()=>{
  try{
-    await mongoose.connect(MONGI_URI);
-    console.log("connected to database");
+    await mongoose.connect(MONGO_URI);
+    console.log("connected to database: ");
+    console.log("connected to mailtrap token --->: ",MAILTRAP_TOKEN);
  }catch(error){
     console.error("error while connecting to database", error.message);
  }   
 }
+
+export default DBConnection;
