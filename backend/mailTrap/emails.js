@@ -35,3 +35,39 @@ export const sendWelcomEmail = async(email,username)=>{
     }
 
 }
+
+
+export const sendResetPasswordEmail = async(email,resetUrl)=>{
+    const reciepent = [{email}]
+    try {
+        const response = await Client.send({
+            from:sender,
+            to:reciepent,
+            subject:"Reset Your Password",
+            html:PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}",resetUrl),
+            category:"Reset password"
+        });
+    
+        console.log("reset password Email sent successfully", response);
+    } catch (error) {
+        console.error("error in sending the forgot password email", error.message);
+    }
+}
+
+
+export const sendResetSuccessEmail = async(email)=>{
+     const reciepent = [{email}]
+    try {
+        const response = await Client.send({
+            from:sender,
+            to:reciepent,
+            subject:" Your Password has been reset",
+            html:PASSWORD_RESET_SUCCESS_TEMPLATE,
+            category:"Reset password Success"
+        });
+    
+        console.log("reset password Email sent successfully", response);
+    } catch (error) {
+        console.error("error in sending the  forgot password 'success' email", error.message);
+    }
+}
