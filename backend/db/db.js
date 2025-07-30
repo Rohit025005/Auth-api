@@ -5,7 +5,6 @@ import { MONGO_URI,MAILTRAP_TOKEN } from '../config/env.js';
  try{
     await mongoose.connect(MONGO_URI);
     console.log("connected to database: ");
-    console.log("connected to mailtrap token --->: ",MAILTRAP_TOKEN);
  }catch(error){
     console.error("error while connecting to database", error.message);
  }   

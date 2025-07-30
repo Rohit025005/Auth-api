@@ -1,7 +1,7 @@
 import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import generateTokenAndSetCookies from '../utils/generateTokenAndSetCookies.js';
-import { sendVerificationEmail } from '../mailTrap/emails.js';
+import { sendVerificationEmail, sendWelcomEmail } from '../mailTrap/emails.js';
 
 export const signUp = async (req, res) => {
   const { name, email, password } = req.body;
@@ -25,13 +25,14 @@ export const signUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
 
-    console.log('Creating new user');
+
+    console.log('Creating new user',verificationToken);
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
       verificationToken,
-      verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hrs
+      verificationTokenExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hrs
     });
     await user.save();
     console.log('New user saved');
@@ -59,6 +60,43 @@ export const signUp = async (req, res) => {
     });
   }
 };
+
+
+export const vefiryEmail = async (req,res)=>{
+
+  try {
+    const { otp } = req.body;
+  
+    const user = await User.findOne({
+      verificationToken:otp,
+      verificationTokenExpiresAt: {$gt:Date.now()}
+    });
+  
+    if(!user) return res.status(401).json({success:false,message:"Invalid or Expired Verification Token"});
+  
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpiresAt = undefined;
+    await user.save();
+  
+    //otp verified now update the user in db
+    await sendWelcomEmail(user.email,user.name);
+    res.status(201).json({
+      success: true,
+      message: "Email Verified  successfully",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    res.status(401);
+    console.error("something went in verification email",error.message);
+  }
+
+};
+
+
 export const logIn =('/log-in',()=>{
     // code to handle log-in
 });
