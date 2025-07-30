@@ -204,7 +204,7 @@ export const forgotPassword = async(req,res)=>{
 export const resetPassword = async(req,res)=>{
   try {
     const token = req.params;
-    const newpass = req.body;
+    const newPassword = req.body;
 
     const user = await User.findOne({
       resetPasswordToken: token,
@@ -218,7 +218,7 @@ export const resetPassword = async(req,res)=>{
     });
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     user.password = hashedPassword;
     user.resetPasswordToken = null;
