@@ -124,7 +124,7 @@ export const logIn =async(req,res)=>{
         message:"Incorrect Password "
       });
 
-      generateTokenAndSetCookies(email,req._id);
+      generateTokenAndSetCookies(res,user._id);
 
       user.lastLogin = Date.now();
 
@@ -144,7 +144,7 @@ export const logIn =async(req,res)=>{
       success: false,
       message: "Internal server error",
     });
-    console.error("something went in user log in",error.message);
+    console.error("something went in user log in:",error.message);
   }
 }
 
@@ -190,6 +190,7 @@ export const forgotPassword = async(req,res)=>{
       return res.status(201).json({
         success: true,
         message: "Password reset link sent to your email",
+        resetToken
       });
 
   } catch (error) {
@@ -203,11 +204,11 @@ export const forgotPassword = async(req,res)=>{
 
 export const resetPassword = async(req,res)=>{
   try {
-    const token = req.params;
-    const newPassword = req.body;
+    const token = req.params.token;           
+    const { password: newPassword } = req.body;
 
-    const user = await User.findOne({
-      resetPasswordToken: token,
+     const user = await User.findOne({
+      resetPasswordToken: token,            
       resetPasswordExpiresAt: { $gt: Date.now() }
     });
 
@@ -221,8 +222,8 @@ export const resetPassword = async(req,res)=>{
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     user.password = hashedPassword;
-    user.resetPasswordToken = null;
-    user.resetPasswordExpiresAt = null;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiresAt = undefined;
 
     await user.save();
 
@@ -236,7 +237,7 @@ export const resetPassword = async(req,res)=>{
       success: false,
       message: "Error resetting password",
     })
-    console.error("error in reset password (the link one)",error.message);
+    console.error("error in reset password ",error.message);
   
   }
 }

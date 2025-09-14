@@ -1,5 +1,5 @@
 import express from "express";
-import {signUp,logIn,logOut, vefiryEmail, resetPassword, checkAuth} from '../controller/authController.js'
+import {signUp,logIn,logOut, vefiryEmail, resetPassword, checkAuth, forgotPassword} from '../controller/authController.js'
 import { verifyToken } from "../middleware/verifyToken.js";
 const authRouter = express();
 
@@ -12,6 +12,8 @@ authRouter.post('/log-in',logIn);
 authRouter.post('/log-out',logOut);
 
 authRouter.post('/verify-email',vefiryEmail);
+
+authRouter.post('/forgot-password',forgotPassword);
 
 authRouter.post('/reset-password/:token',resetPassword);
 

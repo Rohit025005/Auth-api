@@ -1,20 +1,18 @@
 
-import { MailtrapClient } from "mailtrap";
+//import { MailtrapClient } from "mailtrap";
+import { Resend } from "resend";
 import dotenv from "dotenv"; 
 dotenv.config();
 
-import { MAILTRAP_TOKEN } from "../config/env.js";
+import { MAILTRAP_TOKEN ,RESEND_API_TOKEN} from "../config/env.js";
 
-  const Client = new MailtrapClient({
-    token: "2969d8b3816e0db427f538b33a0d9cae",
-  });
+  const Client = new Resend(RESEND_API_TOKEN);
 
-  const sender = {
-    email: "hello@demomailtrap.co",
-    name: "Mailtrap Test",
-  };
+  const sender = "Using Resend <delivered@resend.dev>";
 
 export { Client, sender };
+
+
 //    <------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 /**
  mailtrap using nodemailer
