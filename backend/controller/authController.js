@@ -64,10 +64,10 @@ export const signUp = async (req, res) => {
 };
 
 
-export const vefiryEmail = async (req,res)=>{
+export const verifyEmail = async (req,res)=>{
 
   try {
-    const { otp } = req.body;
+    const  {otp}  = req.body;
   
     const user = await User.findOne({
       verificationToken:otp,
