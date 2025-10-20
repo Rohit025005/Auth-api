@@ -1,19 +1,28 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/input";
+import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const  isLoading = false
+	const { login, isLoading, error } = useAuthStore();
+	const navigate = useNavigate();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		await login(email, password);
+		try {
+			await login(email, password);
+			navigate("/verify-email");
+			toast.success("Login successful");
+		} catch (error) {
+			toast.error(error.response?.data?.message || "Login failed");
+		}
 	};
 
 	return (
@@ -50,7 +59,7 @@ const LoginPage = () => {
 							Forgot password?
 						</Link>
 					</div>
-					{/* {error && <p className='text-red-500 font-semibold mb-2'>{error}</p>} */}
+					{error && <p className='text-red-500 font-semibold mb-2'>{error}</p>}
 
 					<motion.button
 						whileHover={{ scale: 1.02 }}
