@@ -3,28 +3,28 @@ import Input from "../components/input";
 import PasswordStrengthMeter from "../components/passwordStrengthMeter";
 import { User, Mail, Lock, Loader } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore"
+
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); 
+  const navigate = useNavigate();
+  const { signUp ,error, isLoading} = useAuthStore();
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
 
-    try {
-     
-      console.log({ name, email, password });
-      await new Promise((res) => setTimeout(res, 2000)); // mock delay
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+ const handleSignUp = async (e) => {
+		e.preventDefault();
+
+		try {
+		await signUp(email, password, name);
+			navigate("/verify-email");
+		} catch (error) {
+			console.error("error in handleSignUp",error.message);
+		}
+	};
 
   return (
     <motion.div
