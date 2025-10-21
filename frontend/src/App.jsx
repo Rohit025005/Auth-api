@@ -2,7 +2,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import FloatingShape from "./components/FloatingShape";
 import SignUpPage from "./pages/signUpPage"; 
 import LogInPage from "./pages/logInPage";   
-import EmailVerificationPage from "./pages/emailVerificationPage";   
+import EmailVerificationPage from "./pages/emailVerificationPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordpage";
 import { Toaster } from "react-hot-toast"
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
@@ -78,7 +80,23 @@ export default function App() {
 							<EmailVerificationPage/>
 						</RedirectAuthenticatedUser>
 					} 
-				/>  
+				/>
+
+				<Route path="/forgot-password"
+					element={
+						<RedirectAuthenticatedUser>
+							<ForgotPasswordPage />
+						</RedirectAuthenticatedUser>
+					}
+				/>
+
+				<Route path="/reset-password/:token"
+					element={
+						<RedirectAuthenticatedUser>
+							<ResetPasswordPage />
+						</RedirectAuthenticatedUser>
+					}
+				/>
 			</Routes>
 			<Toaster/>
 		</div>
