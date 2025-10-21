@@ -2,8 +2,11 @@ import User from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import generateTokenAndSetCookies from '../utils/generateTokenAndSetCookies.js';
-import { sendResetPasswordEmail, sendResetSuccessEmail, sendVerificationEmail, sendWelcomEmail } from '../mailTrap/emails.js';
 import { CLIENT_URL } from '../config/env.js';
+import { sendResetPasswordEmail,
+   sendResetSuccessEmail,
+    sendVerificationEmail,
+     sendWelcomeEmail } from '../mailTrap/emails.js';
 
 export const signUp = async (req, res) => {
   const { name, email, password } = req.body;
@@ -82,7 +85,7 @@ export const verifyEmail = async (req,res)=>{
     await user.save();
   
     //otp verified now update the user in db
-    await sendWelcomEmail(user.email,user.name);
+    await sendWelcomeEmail(user.email,user.name);
     res.status(201).json({
       success: true,
       message: "Email Verified  successfully",
