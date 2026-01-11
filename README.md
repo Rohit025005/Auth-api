@@ -1,13 +1,12 @@
 # 🔐 Authentication System
 
-A full-stack authentication system built with the MERN stack (MongoDB, Express, React, Node.js) featuring email verification, password reset, and secure user authentication.
+Authentication backend and client implementing user lifecycle management, token-based sessions, email-driven verification, and role-safe protected access across the application.
 
 ##  Features
 
 - 🔒 **Secure Authentication** - JWT-based authentication with HTTP-only cookies
 - ✉️ **Email Verification** - 6-digit OTP verification system
 - 🔑 **Password Reset** - Secure password reset via email link
-- 🎨 **Modern UI** - Beautiful gradient design with Framer Motion animations
 - 🛡️ **Protected Routes** - Client-side route protection
 - 📱 **Responsive Design** - Mobile-friendly interface with Tailwind CSS
 - 🔐 **Password Strength Meter** - Real-time password strength validation
